@@ -73,6 +73,7 @@ const Game = props => {
                 <button onClick={() => changeScore('opp', '+')}>OPP +1</button>
                 <button onClick={() => changeScore('opp', '-')}>OPP -1</button>
             </div>
+            <button>Edit Game Details</button>
         </>
     )
 }

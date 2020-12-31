@@ -10,7 +10,7 @@ const ListGames = props => {
 
     return (
         <div>
-        <h1>Get Schedule</h1>
+        <h1>Schedule</h1>
         {props.schedule.map(ele => (
             <Link to={`/game/${ele.id}`}>
                 <div className='games'>  
