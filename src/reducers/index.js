@@ -1,7 +1,8 @@
 import {
     FETCHING_START,
     FETCHING_ERROR,
-    FETCHING_SUCCESS
+    FETCHING_SUCCESS,
+    FLIP_LOADING
 } from '../actions'
 
 const initialState = {
@@ -27,6 +28,11 @@ export const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 error: action.payload,
+                isLoading: false
+            }
+        case FLIP_LOADING:
+            return {
+                ...state,
                 isLoading: false
             }
         default:

@@ -2,6 +2,7 @@ import axios from 'axios'
 export const FETCHING_START = 'FETCHING_START'
 export const FETCHING_ERROR = 'FETCHING_ERROR'
 export const FETCHING_SUCCESS = 'FETCHING_SUCCESS'
+export const FLIP_LOADING = 'FLIP_LOADING'
 
 export const getAllGames = () => dispatch => {
     dispatch({ type: FETCHING_START })
@@ -22,5 +23,12 @@ export const postGame = game => dispatch => {
                 })
                 .catch(err => dispatch({ type: FETCHING_ERROR, payload: err}))
         })
+        .catch(err => dispatch({ type: FETCHING_ERROR, payload: err}))
+}
+
+export const editGame = (score, id) => dispatch => {
+    dispatch({ type: FETCHING_START })
+    axios.put(`http://localhost:3300/api/schedule/${id}`, score)
+        .then(res => dispatch({ type: FLIP_LOADING }))
         .catch(err => dispatch({ type: FETCHING_ERROR, payload: err}))
 }

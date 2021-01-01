@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
 import { useParams, Link } from 'react-router-dom'
 import axios from 'axios'
+import { editGame } from '../actions'
 
 const Game = props => {
     const { id } = useParams()
@@ -24,24 +25,24 @@ const Game = props => {
             if (operation == '+'){
                 //hd add score
                 setHDscore(hdscore+1)
-                console.log((hdscore+1).toString())
+                props.editGame({hd_score: (hdscore+1).toString()}, id)
             } else {
                 //hd minus score
                 if (hdscore!=0) {
                     setHDscore(hdscore-1)
-                    console.log((hdscore-1).toString())
+                    props.editGame({hd_score: (hdscore-1).toString()}, id)
                 }
             }
         } else {
             if (operation == '+'){
                 //opp add score
                 setOPPscore(oppscore+1)
-                console.log((oppscore+1).toString())
+                props.editGame({opp_team_score: (oppscore+1).toString()}, id)
             } else {
                 //opp minus score
                 if (oppscore !=0) {
                     setOPPscore(oppscore-1)
-                    console.log((oppscore-1).toString())
+                    props.editGame({opp_team_score: (oppscore-1).toString()}, id)
                 }
             }
         }
@@ -58,9 +59,9 @@ const Game = props => {
                     <p className='schedule'>Hyperspace Dark</p>
                 </div>
                 <div className='sideflex2'>
-                    <p className='schedule'>{game.opp_team} Score {oppscore}</p>
+                    <h1 className='schedule'>{game.opp_team} Score {oppscore}</h1>
                     <p className='schedule'>-</p>
-                    <p className='schedule'>HD Score {hdscore}</p>
+                    <h1 className='schedule'>HD Score {hdscore}</h1>
                 </div>
                 <div className='datetime'>
                     <p className='schedule'>{game.date}</p>
@@ -86,4 +87,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, { })(Game)
+export default connect(mapStateToProps, { editGame })(Game)
