@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import { connect } from 'react-redux'
-import {  } from '../actions'
+import { postGame } from '../actions'
 
-const CreateGame = () => {
+const CreateGame = props => {
     const [visability, setVisability] = useState(false)
+    const [error, setError] = useState(false)
     const [newgame, setNewgame] = useState({
         opp_team: '',
         opp_teamimg: '',
@@ -21,14 +22,21 @@ const CreateGame = () => {
 
     const submitForm = e => {
         e.preventDefault()
-        console.log(newgame)
-        setNewgame({
-            opp_team: '',
-            opp_teamimg: '',
-            date: '',
-            game: '',
-            time: ''
-        })
+        if (newgame.opp_team.length > 0 && newgame.date.length > 0 && newgame.time.length > 0 && newgame.game === 'rl' || newgame.game === 'valorant') {
+            console.log('meets requirements')
+            props.postGame(newgame)
+            setNewgame({
+                opp_team: '',
+                opp_teamimg: '',
+                date: '',
+                game: '',
+                time: ''
+            })
+        } else {
+            console.log('does not')
+            setError(true)
+        }
+        
     }
 
     return (
@@ -56,6 +64,7 @@ const CreateGame = () => {
                         id='opp_team'
                         onChange={handleChanges}
                         value={newgame.opp_team}
+                        placeholder='team name'
                     />
                     <input
                         type='text'
@@ -63,6 +72,7 @@ const CreateGame = () => {
                         id='opp_teamimg'
                         onChange={handleChanges}
                         value={newgame.opp_teamimg}
+                        placeholder='link to other teams logo'
                     />
                     <input
                         type='text'
@@ -70,10 +80,11 @@ const CreateGame = () => {
                         id='game'
                         onChange={handleChanges}
                         value={newgame.game}
-                        placeholder='Game type ("rl" or "valorant")'
+                        placeholder='"rl" or "valorant"'
                     />
                     <button type='submit'>Post</button>
                 </form>
+                <button className={error ? 'create' : 'hidden'} onClick={() => setError(!error)}>Does not meet requirements</button>
             </div>
         </>
     )
@@ -87,4 +98,4 @@ const mapStateToProps = state => {
     }
 }
 
-export default connect(mapStateToProps, {  })(CreateGame)
+export default connect(mapStateToProps, { postGame })(CreateGame)

@@ -11,3 +11,16 @@ export const getAllGames = () => dispatch => {
         })
         .catch(err => dispatch({ type: FETCHING_ERROR, payload: err}))
 }
+
+export const postGame = game => dispatch => {
+    dispatch({ type: FETCHING_START })
+    axios.post('http://localhost:3300/api/schedule', game)
+        .then(res => {
+            axios.get('http://localhost:3300/api/schedule')
+                .then(res1 => {
+                    dispatch({ type: FETCHING_SUCCESS, payload: res1.data })
+                })
+                .catch(err => dispatch({ type: FETCHING_ERROR, payload: err}))
+        })
+        .catch(err => dispatch({ type: FETCHING_ERROR, payload: err}))
+}
